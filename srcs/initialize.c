@@ -18,15 +18,22 @@ static char ***command_init(int argc, char **argv);
 // PATH変数の中身を初期化する
 int	initialize(int argc, char **argv, char **envp, t_pipex *pipex)
 {
-	pipex->paths = find_path_from_envp(envp);
-	if (pipex->paths == NULL)
+	if (pipex->type == PIPES)
 	{
-		close(pipex->infile_fd);
-		close(pipex->outfile_fd);
-		write(2, "PATH Error\n", 11);
-		exit(1);
+		pipex->paths = find_path_from_envp(envp);
+		if (pipex->paths == NULL)
+		{
+			close(pipex->infile_fd);
+			close(pipex->outfile_fd);
+			write(2, "PATH Error\n", 11);
+			exit(1);
+		}
+		pipex->cmd_args = command_init(argc, argv);
 	}
-	pipex->cmd_args = command_init(argc, argv);
+	else if (pipex->type == HERE_DOC)
+	{
+
+	}
 	return (0);
 }
 
@@ -46,6 +53,7 @@ static char ***command_init(int argc, char **argv)
 			write(2, "memory allocated Error\n", 23);
 			exit(1);
 		}
+		i++;
 	}
 	return (res);
 }
