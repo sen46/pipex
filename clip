@@ -1,0 +1,2 @@
+Makefile:24: *** missing separator (did you mean TAB instead of 8 spaces?).  Stop.
+make: *** [incs/libft/libft.a] Error 2
