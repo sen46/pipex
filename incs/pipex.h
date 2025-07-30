@@ -6,7 +6,7 @@
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:36:25 by ssawa             #+#    #+#             */
-/*   Updated: 2025/07/07 19:16:25 by ssawa            ###   ########.fr       */
+/*   Updated: 2025/07/08 16:37:51 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@
 #include <fcntl.h>
 #include "libft/libft.h"
 #include "struct.h"
+#include <stdio.h>
 
 # define PIPES 1
 # define HERE_DOC 2
-int	valid(int ac, char **av, t_pipex *fd);
+
+int		valid(int ac, char **av, t_pipex *fd);
 char	**find_path_from_envp(char **envp);
 void	free_char_deg2(char **str);
 void	free_char_deg3(char ***str);
-int	initialize(int argc, char **argv, char **envp, t_pipex *pipex);
+void	free_pipes(int **pipes);
+void	free_all(t_pipex *pipex);
+void	close_all_pipes(int cmd_count, int **pipes);
+int		initialize(int argc, char **argv, char **envp, t_pipex *pipex);
+char	*ft_strjoin3(char *str1, char *str2, char *str3);
 
 #endif

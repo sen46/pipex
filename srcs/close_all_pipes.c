@@ -1,55 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   close_all_pipes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/07 10:43:36 by ssawa             #+#    #+#             */
-/*   Updated: 2025/07/08 13:50:12 by ssawa            ###   ########.fr       */
+/*   Created: 2025/07/08 14:31:31 by ssawa             #+#    #+#             */
+/*   Updated: 2025/07/08 14:33:02 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "struct.h"
 #include "pipex.h"
 
-void	free_char_deg2(char **str)
+void	close_all_pipes(int cmd_count, int **pipes)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
-}
-
-void	free_char_deg3(char ***str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
+	while (i < cmd_count)
 	{
-		free_char_deg2(str[i++]);
+		if (pipes[i][0] != -1)
+		{
+			close(pipes[i][0]);
+			pipes[i][0] = -1;
+		}
+		if (pipes[i][1] != -1)
+		{
+			close(pipes[i][1]);
+			pipes[i][1] = -1;
+		}
+		i++;
 	}
-	free(str);
-}
-
-void	free_pipes(int **pipes)
-{
-	int	i;
-
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i++]);
-	}
-	free(pipes);
-}
-
-void	free_all(t_pipex *pipex)
-{
-	free_pipes(pipex->pipes);
-	free_char_deg3(pipex->cmd_args);
 }
