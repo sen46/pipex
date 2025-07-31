@@ -23,6 +23,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	initialize(argc, argv, envp, &pipex);
+	/*
 	for (int i = 0; pipex.cmd_args[i]; i++)
 	{
 		for (int j = 0; pipex.cmd_args[i][j]; j++)
@@ -30,6 +31,12 @@ int	main(int argc, char **argv, char **envp)
 			printf("%s\n", pipex.cmd_args[i][j]);
 		}
 	}
+	for (int i = 0; pipex.paths[i]; i++)
+	{
+		printf("%s\n", pipex.paths[i]);
+	}
+	write(1, "ok\n", 3);
+	*/
 	// main_process()
 	// EXIT()
 	return (0);

@@ -35,6 +35,7 @@ typedef struct s_pipex
 	char	**paths;      // 解析済みのPATH
 	char	***cmd_args;  // コマンド引数配列、何番目もコマンド、コマンドの文字列の集合をダブルポインタで管理する
 						   // コマンドはオプションがついている場合文字列の集合に分ける必要があるため
+	int		cmd_count;
 	char	**cmd_path;
 	// char	*cmd1_path;   // 1つ目のコマンドのフルパス
 	// char	*cmd2_path;   // 2つ目のコマンドのフルパス

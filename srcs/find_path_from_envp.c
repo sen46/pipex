@@ -37,4 +37,3 @@ char	**find_path_from_envp(char **envp)
 	}
 	return (NULL);
 }
-

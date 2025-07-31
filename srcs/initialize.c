@@ -30,8 +30,9 @@ int	initialize(int argc, char **argv, char **envp, t_pipex *pipex)
 			write(2, "PATH Error\n", 11);
 			exit(1);
 		}
-		pipex->cmd_args = command_alloc(argc, argv);
-		pipex->pipes = pipes_alloc(argc);
+		pipex->cmd_count = argc - 3;
+		pipex->cmd_args = command_alloc(pipex->cmd_count, argv);
+		pipex->pipes = pipes_alloc(pipex->cmd_count);
 	}
 	else if (pipex->type == HERE_DOC)
 	{
@@ -40,41 +41,40 @@ int	initialize(int argc, char **argv, char **envp, t_pipex *pipex)
 	return (0);
 }
 
-static int **pipes_alloc(int argc)
+static int **pipes_alloc(int cmd_count)
 {
-	int	cmd_count;
 	int	**pipes;
 	int	i;
 
-	cmd_count = argc - 3;
 	pipes = ft_calloc(cmd_count, sizeof(int *));
 	if (pipes == NULL)
 	{
 		exit(1);
 	}
 	i = 0;
-	while (i < cmd_count)
+	while (i < cmd_count - 1)
 	{
 		pipes[i] = ft_calloc(2, sizeof(int));
-		if (pipes[i++] == NULL)
+		if (pipes[i] == NULL)
 		{
 			free_pipes(pipes);
 			exit(1);
 		}
 		pipes[i][0] = -1;
 		pipes[i][1] = -1;
+		i++;
 	}
 	return(pipes);
 }
 
-static char ***command_alloc(int argc, char **argv)
+static char ***command_alloc(int cmd_count, char **argv)
 {
 	char	***res;
 	int		i;
 
-	res = (char ***)ft_calloc(argc - 3, sizeof(char **));
+	res = (char ***)ft_calloc(cmd_count + 1, sizeof(char **));
 	i = 0;
-	while (i < argc - 3)
+	while (i < cmd_count)
 	{
 		res[i] = ft_split(argv[i + 2], ' ');
 		if (res[i] == NULL)
@@ -83,6 +83,9 @@ static char ***command_alloc(int argc, char **argv)
 			write(2, "memory allocated Error\n", 23);
 			exit(1);
 		}
+		int j = 0;
+		while (res[i][j])
+			printf("cmt_%d = %s\n", i, res[i][j++]);
 		i++;
 	}
 	return (res);
