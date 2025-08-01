@@ -12,15 +12,15 @@
 
 #include "libft/libft.h"
 
-static char **split_path(char *envp)
+static char	**split_path(char *envp)
 {
 	return (ft_split(envp, ':'));
 }
 
 char	**find_path_from_envp(char **envp)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
 	char	**res;
 
 	i = 0;

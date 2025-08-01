@@ -16,6 +16,7 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 {
 	char	*dst;
 	char	*res;
+
 	dst = ft_strjoin(str1, str2);
 	res = ft_strjoin(dst, str3);
 	free(dst);

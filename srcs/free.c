@@ -6,7 +6,7 @@
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:43:36 by ssawa             #+#    #+#             */
-/*   Updated: 2025/08/01 22:51:20 by ssawa            ###   ########.fr       */
+/*   Updated: 2025/08/01 23:00:30 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	free_all(t_pipex *pipex)
 	free_char_deg3(pipex->cmd_args);
 	free_char_deg2(pipex->cmd_path);
 	free_char_deg2(pipex->paths);
-	if (!access("/tmp/heredoc_tmp", F_OK))
+	if (!access("tmp", F_OK))
 	{
-		unlink("/tmp/heredoc_tmp");
+		unlink("tmp");
 	}
 }

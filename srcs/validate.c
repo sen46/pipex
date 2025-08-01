@@ -6,7 +6,7 @@
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 21:55:35 by ssawa             #+#    #+#             */
-/*   Updated: 2025/08/01 22:54:27 by ssawa            ###   ########.fr       */
+/*   Updated: 2025/08/01 23:00:14 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	valid(int ac, char **av, t_pipex *pipex)
 			write(2, "Error\n", 6);
 			exit(1);
 		}
-		pipex->infile_fd = open("/tmp/heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		pipex->infile_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (pipex->infile_fd == -1)
 		{
-			perror("/tmp/heredoc_tmp");
+			perror("tmp");
 			exit(EXIT_FAILURE);
 		}
 		pipex->outfile_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);

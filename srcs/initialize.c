@@ -13,7 +13,6 @@
 #include "libft/libft.h"
 #include "pipex.h"
 #include "struct.h"
-#include <fcntl.h>
 
 static char	***command_alloc(int argc, char **argv, int type);
 static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp);
@@ -47,7 +46,7 @@ static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp)
 	get_cmd_path(pipex);
 }
 
-static char ***command_alloc(int cmd_count, char **argv, int type)
+static char	***command_alloc(int cmd_count, char **argv, int type)
 {
 	char	***res;
 	int		i;
