@@ -6,7 +6,7 @@
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 10:43:36 by ssawa             #+#    #+#             */
-/*   Updated: 2025/07/08 13:50:12 by ssawa            ###   ########.fr       */
+/*   Updated: 2025/08/01 22:51:20 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ void	free_char_deg2(char **str)
 
 	i = 0;
 	while (str[i])
-		free(str[i++]);
+	{
+		free(str[i]);
+		str[i++] = NULL;
+	}
 	free(str);
+	str = NULL;
 }
 
 void	free_char_deg3(char ***str)
@@ -34,6 +38,7 @@ void	free_char_deg3(char ***str)
 		free_char_deg2(str[i++]);
 	}
 	free(str);
+	str = NULL;
 }
 
 void	free_pipes(int **pipes)
@@ -43,13 +48,20 @@ void	free_pipes(int **pipes)
 	i = 0;
 	while (pipes[i])
 	{
-		free(pipes[i++]);
+		free(pipes[i]);
+		pipes[i++] = NULL;
 	}
 	free(pipes);
+	pipes = NULL;
 }
 
 void	free_all(t_pipex *pipex)
 {
-	free_pipes(pipex->pipes);
 	free_char_deg3(pipex->cmd_args);
+	free_char_deg2(pipex->cmd_path);
+	free_char_deg2(pipex->paths);
+	if (!access("/tmp/heredoc_tmp", F_OK))
+	{
+		unlink("/tmp/heredoc_tmp");
+	}
 }

@@ -6,13 +6,12 @@
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 22:34:23 by ssawa             #+#    #+#             */
-/*   Updated: 2025/07/07 19:16:47 by ssawa            ###   ########.fr       */
+/*   Updated: 2025/08/01 22:07:11 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "struct.h"
-#include <stdio.h>
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,9 +34,12 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("%s\n", pipex.paths[i]);
 	}
-	write(1, "ok\n", 3);
+	for (int i = 0; pipex.cmd_path[i]; i++)
+	{
+		printf("cmd_path[%d] = %s\n", i, pipex.cmd_path[i]);
+	}
 	*/
-	// main_process()
-	// EXIT()
+	execute_commands(&pipex, envp);
+	free_all(&pipex);
 	return (0);
 }
