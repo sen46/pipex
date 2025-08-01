@@ -1,2 +1,3 @@
 make re
-./pipex input.txt "ws -l" "cat -e" "ls -l" output.txt
+./pipex input.txt "wc -l" "cat -e" output.txt
+cat output.txt

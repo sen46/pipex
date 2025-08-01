@@ -6,7 +6,7 @@
 #    By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 22:34:58 by ssawa             #+#    #+#              #
-#    Updated: 2025/07/07 19:25:03 by ssawa            ###   ########.fr        #
+#    Updated: 2025/08/01 14:33:26 by ssawa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,9 @@ SRC = \
 	srcs/initialize.c \
 	srcs/main.c \
 	srcs/validate.c \
+	srcs/process.c \
+	srcs/get_cmd_path.c \
+	srcs/ft_strjoin3.c \
 
 BONUS_SRC = \
 
