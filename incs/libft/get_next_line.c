@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 
 char	*ft_free_and_strjoin(char *buffer, char *buf)
 {
