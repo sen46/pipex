@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 14:43:53 by ssawa             #+#    #+#             */
-/*   Updated: 2025/07/05 17:17:42 by ssawa            ###   ########.fr       */
+/*   Created: 2025/07/05 17:08:37 by ssawa             #+#    #+#             */
+/*   Updated: 2025/07/05 17:19:00 by ssawa            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_bzero(void *s, size_t len)
+int	ft_isspace(int c)
 {
-	unsigned char	*us;
-	size_t			idx;
+	unsigned char	uc;
 
-	us = (unsigned char *)s;
-	idx = 0;
-	while (idx < len)
-	{
-		us[idx] = '\0';
-		idx++;
-	}
+	uc = (unsigned char)c;
+	return (uc == ' ' || uc == '\v' || uc == '\r' || \
+			uc == '\t' || uc == '\f' || uc == '\n');
 }
