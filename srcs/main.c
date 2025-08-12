@@ -18,27 +18,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (valid(argc, argv, &pipex))
-	{
 		return (1);
-	}
 	initialize(argc, argv, envp, &pipex);
-	/*
-	for (int i = 0; pipex.cmd_args[i]; i++)
-	{
-		for (int j = 0; pipex.cmd_args[i][j]; j++)
-		{
-			printf("%s\n", pipex.cmd_args[i][j]);
-		}
-	}
-	for (int i = 0; pipex.paths[i]; i++)
-	{
-		printf("%s\n", pipex.paths[i]);
-	}
-	for (int i = 0; pipex.cmd_path[i]; i++)
-	{
-		printf("cmd_path[%d] = %s\n", i, pipex.cmd_path[i]);
-	}
-	*/
 	execute_commands(&pipex, envp);
 	free_all(&pipex);
 	return (0);

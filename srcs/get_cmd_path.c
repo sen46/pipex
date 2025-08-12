@@ -12,11 +12,13 @@
 
 #include "libft/libft.h"
 #include "pipex.h"
+#include <stdlib.h>
 
 void	get_cmd_path(t_pipex *pipex)
 {
 	int	i;
 	int	j;
+	int	flag;
 
 	pipex->cmd_path = ft_calloc(pipex->cmd_count + 1, sizeof(char *));
 	if (!pipex->cmd_path)
@@ -25,6 +27,7 @@ void	get_cmd_path(t_pipex *pipex)
 	while (pipex->cmd_args[i])
 	{
 		j = 0;
+		flag = 1;
 		if (!access(pipex->cmd_args[i][0], X_OK))
 		{
 			pipex->cmd_path[i] = ft_strdup(pipex->cmd_args[i][0]);
@@ -33,17 +36,27 @@ void	get_cmd_path(t_pipex *pipex)
 		}
 		while (pipex->paths[j])
 		{
-			pipex->cmd_path[i] = ft_strjoin3(pipex->paths[j], "/", pipex->cmd_args[i][0]);
+			pipex->cmd_path[i] = ft_strjoin3(pipex->paths[j], "/", \
+											pipex->cmd_args[i][0]);
 			if (!pipex->cmd_path[i])
 				return ;
 			if (!access(pipex->cmd_path[i], X_OK))
-				break;
+			{
+				flag = 0;
+				break ;
+			}
 			else if (pipex->cmd_path[i])
 			{
 				free(pipex->cmd_path[i]);
 				pipex->cmd_path[i] = NULL;
 			}
 			j++;
+		}
+		if (flag)
+		{
+			free_all(pipex);
+			write(2, "command not found\n", 18);
+			exit(EXIT_FAILURE);
 		}
 		i++;
 	}

@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "pipex.h"
 #include "struct.h"
+#include <stdlib.h>
 
 int	valid(int ac, char **av, t_pipex *pipex)
 {
@@ -42,14 +44,18 @@ int	valid(int ac, char **av, t_pipex *pipex)
 		pipex->type = PIPES;
 		if (ac < 5)
 		{
+			ft_putstr_fd("argument Error\n", 2);
+			exit(EXIT_FAILURE);
+			/*
 			write(2, "Error\n", 6);
 			exit(1);
+			*/
 		}
 		pipex->infile_fd = open(av[1], O_RDONLY);
 		if (pipex->infile_fd == -1)
 		{
 			perror(av[1]);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 		pipex->outfile_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (pipex->outfile_fd == -1)

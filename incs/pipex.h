@@ -31,10 +31,12 @@ void	free_char_deg2(char **str);
 void	free_char_deg3(char ***str);
 void	free_pipes(int **pipes);
 void	free_all(t_pipex *pipex);
+// void	free_all_heredoc(t_pipex *pipex);
 void	close_all_pipes(int cmd_count, int **pipes);
 int		initialize(int argc, char **argv, char **envp, t_pipex *pipex);
 void	get_cmd_path(t_pipex *pipex);
 void	execute_commands(t_pipex *pipex, char **envp);
 char	*ft_strjoin3(char *str1, char *str2, char *str3);
+void	free_str(char *str);
 
 #endif

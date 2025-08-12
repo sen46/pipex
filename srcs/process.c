@@ -12,6 +12,7 @@
 
 #include "pipex.h"
 #include "struct.h"
+#include <unistd.h>
 
 static void	child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 {
@@ -27,6 +28,12 @@ static void	child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 	}
 	close(fd->prev);
 	close(pipex->outfile_fd);
+	/*
+	if (access(pipex->cmd_path[i], X_OK))
+	{
+
+	}
+	*/
 	execve(pipex->cmd_path[i], pipex->cmd_args[i], envp);
 	perror("execve");
 	free_all(pipex);

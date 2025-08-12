@@ -14,6 +14,12 @@
 #include "struct.h"
 #include "pipex.h"
 
+void	free_str(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
 void	free_char_deg2(char **str)
 {
 	int	i;
@@ -60,8 +66,25 @@ void	free_all(t_pipex *pipex)
 	free_char_deg3(pipex->cmd_args);
 	free_char_deg2(pipex->cmd_path);
 	free_char_deg2(pipex->paths);
+	close(pipex->infile_fd);
+	close(pipex->outfile_fd);
 	if (!access("tmp", F_OK))
 	{
 		unlink("tmp");
 	}
 }
+
+/*
+void	free_all_heredoc(t_pipex *pipex)
+{
+	free_char_deg3(pipex->cmd_args);
+	free_char_deg2(pipex->cmd_path);
+	free_char_deg2(pipex->paths);
+	close(pipex->infile_fd);
+	close(pipex->outfile_fd);
+	if (!access("tmp", F_OK))
+	{
+		unlink("tmp");
+	}
+}
+*/

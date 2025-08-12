@@ -31,9 +31,11 @@ INCLUDES    = -I./incs -I$(LIBFT_DIR)
 #       Source & Object Files          #
 ########################################
 
+OBJDIR = objs
+
 SRC = \
-	srcs/find_path_from_envp.c \
 	srcs/free.c \
+	srcs/find_path_from_envp.c \
 	srcs/initialize.c \
 	srcs/main.c \
 	srcs/validate.c \
@@ -43,43 +45,35 @@ SRC = \
 
 BONUS_SRC = \
 
-OBJ     = $(SRC:.c=.o)
-B_OBJ   = $(BONUS_SRC:.c=.o)
+OBJ   = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
+B_OBJ = $(addprefix $(OBJDIR)/, $(BONUS_SRC:.c=.o))
 
 ########################################
 #               Rules                  #
 ########################################
 
-# デフォルトターゲット
 all: $(NAME)
 
-# ライブラリ作成: 通常 + bonusもまとめてアーカイブ
 $(NAME): $(LIBFT) $(OBJ) $(B_OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
-
-# bonusターゲットも一応定義（同じ内容）
 bonus: $(NAME)
 
-# Libftビルド
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
 
-# オブジェクトファイル作成
-%.o: %.c
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# オブジェクト削除
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJ) $(B_OBJ)
+	rm -rf $(OBJDIR)
 
-# バイナリ・ライブラリ削除
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
-# 全クリーン&再ビルド
 re: fclean all
 
 .PHONY: all bonus clean fclean re
