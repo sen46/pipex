@@ -18,6 +18,7 @@
 
 void	valid_heredoc(int argc, char **argv, t_pipex *pipex)
 {
+	pipex->type = HERE_DOC;
 	if (argc < 6)
 	{
 		write(2, "Error\n", 6);
@@ -29,7 +30,8 @@ void	valid_heredoc(int argc, char **argv, t_pipex *pipex)
 		perror("tmp");
 		exit(EXIT_FAILURE);
 	}
-	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex->outfile_fd = open(argv[argc - 1], \
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->outfile_fd == -1)
 	{
 		perror(argv[argc - 1]);
@@ -52,7 +54,8 @@ void	valid_pipes(int argc, char **argv, t_pipex *pipex)
 		perror(argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex->outfile_fd = open(argv[argc - 1], \
+			O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->outfile_fd == -1)
 	{
 		perror(argv[argc - 1]);
@@ -64,54 +67,8 @@ void	valid_pipes(int argc, char **argv, t_pipex *pipex)
 int	valid(int argc, char **argv, t_pipex *pipex)
 {
 	if (!ft_strcmp(argv[1], "here_doc"))
-	{
-		/*
-		pipex->type = HERE_DOC;
-		if (ac < 6)
-		{
-			write(2, "Error\n", 6);
-			exit(1);
-		}
-		pipex->infile_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipex->infile_fd == -1)
-		{
-			perror("tmp");
-			exit(EXIT_FAILURE);
-		}
-		pipex->outfile_fd = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipex->outfile_fd == -1)
-		{
-			perror(av[ac - 1]);
-			close(pipex->infile_fd);
-			exit(EXIT_FAILURE);
-		}
-		*/
 		valid_heredoc(argc, argv, pipex);
-	}
 	else
-	{
-		/*
-		pipex->type = PIPES;
-		if (argc < 5)
-		{
-			ft_putstr_fd("argument Error\n", 2);
-			exit(EXIT_FAILURE);
-		}
-		pipex->infile_fd = open(argv[1], O_RDONLY);
-		if (pipex->infile_fd == -1)
-		{
-			perror(argv[1]);
-			exit(EXIT_FAILURE);
-		}
-		pipex->outfile_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipex->outfile_fd == -1)
-		{
-			perror(argv[argc - 1]);
-			close(pipex->infile_fd);
-			exit(EXIT_FAILURE);
-		}
-		*/
 		valid_pipes(argc, argv, pipex);
-	}
 	return (0);
 }

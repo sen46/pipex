@@ -58,25 +58,6 @@ void	get_cmd_path(t_pipex *pipex)
 			continue ;
 		}
 		path_check(i, &j, pipex, &flag);
-		/*
-		while (pipex->paths[j])
-		{
-			pipex->cmd_path[i] = ft_strjoin3(pipex->paths[j], "/", \
-											pipex->cmd_args[i][0]);
-			if (!pipex->cmd_path[i])
-				return ;
-			if (!access(pipex->cmd_path[i], X_OK))
-			{
-				flag = 0;
-				break ;
-			}
-			else if (pipex->cmd_path[i])
-			{
-				free_str(pipex->cmd_path[i]);
-			}
-			j++;
-		}
-		*/
 		if (flag)
 		{
 			free_all(pipex);

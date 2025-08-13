@@ -25,7 +25,9 @@ void	free_char_deg2(char **str)
 	int	i;
 
 	i = 0;
-	while (*str[i])
+	if (!str)
+		return ;
+	while (str[i])
 	{
 		free(str[i]);
 		str[i++] = NULL;
@@ -39,29 +41,13 @@ void	free_char_deg3(char ***str)
 	int	i;
 
 	i = 0;
-	while (*str[i])
+	while (str[i])
 	{
 		free_char_deg2(str[i++]);
 	}
 	free(str);
 	str = NULL;
 }
-
-/*
-void	free_pipes(int **pipes)
-{
-	int	i;
-
-	i = 0;
-	while (pipes[i])
-	{
-		free(pipes[i]);
-		pipes[i++] = NULL;
-	}
-	free(pipes);
-	pipes = NULL;
-}
-*/
 
 void	free_all(t_pipex *pipex)
 {

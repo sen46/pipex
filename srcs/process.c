@@ -14,7 +14,7 @@
 #include "struct.h"
 #include <unistd.h>
 
-static void	child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
+static void	run_child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 {
 	dup2(fd->prev, STDIN_FILENO);
 	if (i == pipex->cmd_count - 1)
@@ -28,52 +28,49 @@ static void	child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 	}
 	close(fd->prev);
 	close(pipex->outfile_fd);
-	/*
-	if (access(pipex->cmd_path[i], X_OK))
-	{
-
-	}
-	*/
 	execve(pipex->cmd_path[i], pipex->cmd_args[i], envp);
 	perror("execve");
 	free_all(pipex);
 	exit(127);
 }
 
+static void	execute_command_step(t_pipex *pipex, char **envp, t_fd *fd, int i)
+{
+	pid_t	pid;
+
+	if (i < pipex->cmd_count - 1 && pipe(fd->pipe) == -1)
+	{
+		free_all(pipex);
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		free_all(pipex);
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+		run_child_process(pipex, i, envp, fd);
+	close(fd->prev);
+	if (i < pipex->cmd_count - 1)
+	{
+		close(fd->pipe[1]);
+		fd->prev = fd->pipe[0];
+	}
+}
+
 void	execute_commands(t_pipex *pipex, char **envp)
 {
 	t_fd	fd;
 	int		i;
-	pid_t	pid;
 
 	i = 0;
 	fd.prev = pipex->infile_fd;
 	while (i < pipex->cmd_count)
 	{
-		if (i < pipex->cmd_count - 1 && pipe(fd.pipe) == -1)
-		{
-			free_all(pipex);
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			free_all(pipex);
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-		{
-			child_process(pipex, i, envp, &fd);
-		}
-		close(fd.prev);
-		if (i < pipex->cmd_count - 1)
-			close(fd.pipe[1]);
-		if (i < pipex->cmd_count - 1)
-			fd.prev = fd.pipe[0];
-		else
-			fd.prev = -1;
+		execute_command_step(pipex, envp, &fd, i);
 		i++;
 	}
 	while (wait(NULL) > 0)
