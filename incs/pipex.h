@@ -25,11 +25,11 @@
 # define PIPES 1
 # define HERE_DOC 2
 
-int		valid(int ac, char **av, t_pipex *fd);
+int		valid(int argc, char **argv, t_pipex *fd);
 char	**find_path_from_envp(char **envp);
 void	free_char_deg2(char **str);
 void	free_char_deg3(char ***str);
-void	free_pipes(int **pipes);
+// void	free_pipes(int **pipes);
 void	free_all(t_pipex *pipex);
 // void	free_all_heredoc(t_pipex *pipex);
 void	close_all_pipes(int cmd_count, int **pipes);

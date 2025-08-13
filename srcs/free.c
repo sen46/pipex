@@ -25,7 +25,7 @@ void	free_char_deg2(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (*str[i])
 	{
 		free(str[i]);
 		str[i++] = NULL;
@@ -39,7 +39,7 @@ void	free_char_deg3(char ***str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (*str[i])
 	{
 		free_char_deg2(str[i++]);
 	}
@@ -47,6 +47,7 @@ void	free_char_deg3(char ***str)
 	str = NULL;
 }
 
+/*
 void	free_pipes(int **pipes)
 {
 	int	i;
@@ -60,6 +61,7 @@ void	free_pipes(int **pipes)
 	free(pipes);
 	pipes = NULL;
 }
+*/
 
 void	free_all(t_pipex *pipex)
 {
@@ -73,18 +75,3 @@ void	free_all(t_pipex *pipex)
 		unlink("tmp");
 	}
 }
-
-/*
-void	free_all_heredoc(t_pipex *pipex)
-{
-	free_char_deg3(pipex->cmd_args);
-	free_char_deg2(pipex->cmd_path);
-	free_char_deg2(pipex->paths);
-	close(pipex->infile_fd);
-	close(pipex->outfile_fd);
-	if (!access("tmp", F_OK))
-	{
-		unlink("tmp");
-	}
-}
-*/

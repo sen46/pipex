@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/get_next_line.h"
 #include "libft/libft.h"
 #include "pipex.h"
 #include "struct.h"
@@ -55,49 +56,6 @@ static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp)
 	get_cmd_path(pipex);
 }
 
-/*
-static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
-{
-	char	*str;
-	char	*eof;
-
-	eof = ft_strjoin(argv[2], "\n");
-	if (!eof)
-	{
-		free_all(pipex);
-		exit(EXIT_FAILURE);
-	}
-	while (1)
-	{
-		write(1, "pipe heredoc> ", 14);
-		str = get_next_line(0);
-		if (!str)
-		{
-			free_str(eof);
-			free_all(pipex);
-			exit(EXIT_FAILURE);
-		}
-		if (!ft_strcmp(str, eof))
-		{
-			free_str(str); // break前に必ず解放
-			break ;
-		}
-		ft_putstr_fd(str, pipex->infile_fd);
-		free_str(str);
-	}
-	free_str(eof);
-	close(pipex->infile_fd);
-	pipex->infile_fd = open("tmp", O_RDONLY);
-	if (pipex->infile_fd < 0)
-	{
-		perror("open");
-		free_all(pipex);
-		exit(EXIT_FAILURE);
-	}
-	type_pipes(argc, argv, pipex, envp);
-}
-*/
-
 static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
 {
 	char	*str;
@@ -110,19 +68,16 @@ static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
 		str = get_next_line(0);
 		if (!str)
 		{
-			// free_all_heredoc(pipex);
 			free_all(pipex);
 			exit(EXIT_FAILURE);
 		}
 		if (!ft_strcmp(str, eof))
-		{
-			// free(str);
 			break ;
-		}
 		else
 			ft_putstr_fd(str, pipex->infile_fd);
 		free_str(str);
 	}
+	get_next_line(-1);
 	free_str(str);
 	free_str(eof);
 	close(pipex->infile_fd);
