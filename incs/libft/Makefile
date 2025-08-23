@@ -28,7 +28,7 @@ SRCS =  ft_atoi.c \
         ft_putstr_fd.c \
         ft_split.c \
         ft_strchr.c \
-		ft_strcmp.c \
+        ft_strcmp.c \
         ft_strdup.c \
         ft_striteri.c \
         ft_strjoin.c \
@@ -43,7 +43,7 @@ SRCS =  ft_atoi.c \
         ft_substr.c \
         ft_tolower.c \
         ft_toupper.c \
-		get_next_line.c
+        get_next_line.c
 
 BSRCS = ft_lstadd_back_bonus.c \
         ft_lstadd_front_bonus.c \
@@ -55,29 +55,23 @@ BSRCS = ft_lstadd_back_bonus.c \
         ft_lstnew_bonus.c \
         ft_lstsize_bonus.c
 
-OBJS = $(SRCS:.c=.o)
-BOBJS = $(BSRCS:.c=.o)
-
-OBJS   = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
+OBJS  = $(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 BOBJS = $(addprefix $(OBJDIR)/, $(BSRCS:.c=.o))
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+all: $(NAME)
 
 $(NAME): $(OBJS) $(BOBJS)
 	$(AR) $(NAME) $(OBJS) $(BOBJS)
-
-all: $(NAME)
 
 bonus: $(OBJS) $(BOBJS)
 	$(AR) $(NAME) $(OBJS) $(BOBJS)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS) $(BOBJS)
+	$(RM) -r $(OBJDIR)
 
 fclean: clean
 	$(RM) $(NAME)
