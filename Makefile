@@ -70,7 +70,7 @@ clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -rf $(OBJDIR)
 
-fclean: clean
+fclean:
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 

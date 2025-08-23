@@ -25,13 +25,4 @@
 
 char	*get_next_line(int fd);
 
-/*
-size_t	ft_strlen(const char *str);
-char	*ft_strjoin(const char *str1, const char *str2);
-void	*ft_calloc(size_t number, size_t size);
-char	*ft_strchr(const char *str, int c);
-void	*ft_memset(void *s, int c, size_t n);
-char	*get_next_line(int fd);
-*/
-
 #endif

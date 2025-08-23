@@ -56,8 +56,8 @@ void	free_all(t_pipex *pipex)
 	free_char_deg2(pipex->paths);
 	close(pipex->infile_fd);
 	close(pipex->outfile_fd);
-	if (!access("tmp", F_OK))
+	if (!access("ft_tmp", F_OK))
 	{
-		unlink("tmp");
+		unlink("ft_tmp");
 	}
 }

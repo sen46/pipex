@@ -1,5 +1,12 @@
 NAME = libft.a
 
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+AR = ar rcs
+RM = rm -f
+
+OBJDIR = objs
+
 SRCS =  ft_atoi.c \
         ft_bzero.c \
         ft_calloc.c \
@@ -51,10 +58,8 @@ BSRCS = ft_lstadd_back_bonus.c \
 OBJS = $(SRCS:.c=.o)
 BOBJS = $(BSRCS:.c=.o)
 
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-AR = ar rcs
-RM = rm -f
+OBJS   = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
+BOBJS = $(addprefix $(OBJDIR)/, $(BSRCS:.c=.o))
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -66,6 +71,10 @@ all: $(NAME)
 
 bonus: $(OBJS) $(BOBJS)
 	$(AR) $(NAME) $(OBJS) $(BOBJS)
+
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(RM) $(OBJS) $(BOBJS)

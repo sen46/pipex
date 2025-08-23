@@ -41,7 +41,7 @@ static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp)
 	pipex->paths = find_path_from_envp(envp);
 	if (!pipex->paths)
 	{
-		ft_putstr_fd("memory allocated Error\n", 2);
+		ft_putstr_fd("ft memory allocated Error\n", 2);
 		free_all(pipex);
 		exit(EXIT_FAILURE);
 	}
@@ -49,7 +49,7 @@ static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp)
 	pipex->cmd_args = command_alloc(pipex->cmd_count, argv, pipex->type);
 	if (!pipex->cmd_args)
 	{
-		ft_putstr_fd("memory allocated Error\n", 2);
+		ft_putstr_fd("ft memory allocated Error\n", 2);
 		free_all(pipex);
 		exit(EXIT_FAILURE);
 	}
@@ -81,7 +81,7 @@ static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
 	free_str(str);
 	free_str(eof);
 	close(pipex->infile_fd);
-	pipex->infile_fd = open("tmp", O_RDONLY);
+	pipex->infile_fd = open("ft_tmp", O_RDONLY);
 	type_pipes(argc, argv, pipex, envp);
 }
 
@@ -100,7 +100,7 @@ static char	***command_alloc(int cmd_count, char **argv, int type)
 		if (!res[i])
 		{
 			free_char_deg3(res);
-			write(2, "memory allocated Error\n", 23);
+			write(2, "ft memory allocated Error\n", 23);
 			exit(EXIT_FAILURE);
 		}
 		i++;

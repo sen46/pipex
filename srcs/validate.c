@@ -24,10 +24,10 @@ void	valid_heredoc(int argc, char **argv, t_pipex *pipex)
 		write(2, "Error\n", 6);
 		exit(1);
 	}
-	pipex->infile_fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	pipex->infile_fd = open("ft_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->infile_fd == -1)
 	{
-		perror("tmp");
+		perror("ft_tmp");
 		exit(EXIT_FAILURE);
 	}
 	pipex->outfile_fd = open(argv[argc - 1], \
@@ -45,7 +45,7 @@ void	valid_pipes(int argc, char **argv, t_pipex *pipex)
 	pipex->type = PIPES;
 	if (argc < 5)
 	{
-		ft_putstr_fd("argument Error\n", 2);
+		ft_putstr_fd("ft argument Error\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	pipex->infile_fd = open(argv[1], O_RDONLY);
@@ -66,6 +66,8 @@ void	valid_pipes(int argc, char **argv, t_pipex *pipex)
 
 int	valid(int argc, char **argv, t_pipex *pipex)
 {
+	if (argc < 2)
+		return (1);
 	if (!ft_strcmp(argv[1], "here_doc"))
 		valid_heredoc(argc, argv, pipex);
 	else
