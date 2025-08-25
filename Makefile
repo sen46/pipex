@@ -6,7 +6,7 @@
 #    By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/30 22:34:58 by ssawa             #+#    #+#              #
-#    Updated: 2025/08/01 14:33:26 by ssawa            ###   ########.fr        #
+#    Updated: 2025/08/25 14:00:00 by ssawa            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #            Library Settings          #
 ########################################
 
-NAME = pipex
+NAME        = pipex
 
 LIBFT       = ./incs/libft/libft.a
 LIBFT_DIR   = ./incs/libft
@@ -27,11 +27,14 @@ CC          = cc
 CFLAGS      = -Wall -Wextra -Werror
 INCLUDES    = -I./incs -I$(LIBFT_DIR)
 
+RM          = rm -f
+RM_DIR      = rm -rf
+
+MAKEFLAGS  += --no-print-directory
+
 ########################################
 #       Source & Object Files          #
 ########################################
-
-OBJDIR = objs
 
 SRC = \
 	srcs/free.c \
@@ -43,10 +46,8 @@ SRC = \
 	srcs/get_cmd_path.c \
 	srcs/ft_strjoin3.c \
 
-BONUS_SRC = \
-
-OBJ   = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
-B_OBJ = $(addprefix $(OBJDIR)/, $(BONUS_SRC:.c=.o))
+OBJDIR   = objs
+OBJ      = $(SRC:%.c=$(OBJDIR)/%.o)
 
 ########################################
 #               Rules                  #
@@ -54,26 +55,35 @@ B_OBJ = $(addprefix $(OBJDIR)/, $(BONUS_SRC:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) $(B_OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
-
-bonus: $(NAME)
+$(NAME): $(LIBFT) $(OBJ)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT)
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR) -s
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
+bonus: all
+
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -rf $(OBJDIR)
+	$(MAKE) -C $(LIBFT_DIR) clean -s
+	$(RM_DIR) $(OBJDIR)
 
 fclean:
-	$(MAKE) -C $(LIBFT_DIR) fclean
-	rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean -s
+	$(RM_DIR) $(OBJDIR)
+	$(RM) $(NAME)
 
 re: fclean all
+
+run:
+	@$(MAKE) re
+	./run.sh
+
+here:
+	@$(MAKE) re
+	./here.sh
 
 .PHONY: all bonus clean fclean re

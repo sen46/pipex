@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ssawa <ssawa@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 15:06:44 by ssawa             #+#    #+#             */
+/*   Updated: 2025/08/25 15:06:51 by ssawa            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include "libft.h"
 
@@ -64,14 +76,23 @@ char	*read_file(int fd, char *stash)
 	char	buffer[BUFFER_SIZE + 1];
 	int		byte_read;
 
+	if (!stash)
+		stash = ft_calloc(1, sizeof(char));
+	if (!stash)
+		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
+		{
+			free(stash);
 			return (NULL);
+		}
 		buffer[byte_read] = '\0';
 		stash = ft_free_and_strjoin(stash, buffer);
+		if (!stash)
+			return (NULL);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}

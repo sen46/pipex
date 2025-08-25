@@ -4,6 +4,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -f
+RMDIR = rm -rf
 
 OBJDIR = objs
 
@@ -61,17 +62,17 @@ BOBJS = $(addprefix $(OBJDIR)/, $(BSRCS:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJS) $(BOBJS)
-	$(AR) $(NAME) $(OBJS) $(BOBJS)
+	@$(AR) $(NAME) $(OBJS) $(BOBJS)
 
 bonus: $(OBJS) $(BOBJS)
-	$(AR) $(NAME) $(OBJS) $(BOBJS)
+	@$(AR) $(NAME) $(OBJS) $(BOBJS)
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) -r $(OBJDIR)
+	$(RMDIR) $(OBJDIR)
 
 fclean: clean
 	$(RM) $(NAME)
