@@ -77,7 +77,7 @@ static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
 			ft_putstr_fd(str, pipex->infile_fd);
 		free_str(str);
 	}
-	// get_next_line(-1);
+	get_next_line(-1);
 	free_str(str);
 	free_str(eof);
 	close(pipex->infile_fd);
