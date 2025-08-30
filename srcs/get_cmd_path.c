@@ -38,7 +38,6 @@ static void	path_check(const int i, int *j, t_pipex *pipex, int *flag)
 	}
 }
 
-/*
 void	get_cmd_path(t_pipex *pipex)
 {
 	int	i;
@@ -51,44 +50,21 @@ void	get_cmd_path(t_pipex *pipex)
 	i = 0;
 	while (pipex->cmd_args[i])
 	{
-		j = 0;
-		if (!access(pipex->cmd_args[i][0], X_OK))
+		flag = 1;
+		if (pipex->paths)
+			path_check(i, &j, pipex, &flag);
+		if (flag == 1 && !access(pipex->cmd_args[i][0], X_OK))
 		{
 			pipex->cmd_path[i] = ft_strdup(pipex->cmd_args[i][0]);
-			i++;
-			continue ;
+			flag = 0;
 		}
-		path_check(i++, &j, pipex, &flag);
-		if (flag)
+		if (flag == 1)
 		{
+			ft_putstr_fd("pipex: command not found: ", 2);
+			ft_putstr_fd(pipex->cmd_args[i][0], 2);
+			ft_putstr_fd("\n", 2);
 			free_all(pipex);
-			write(2, "command not found\n", 18);
-			exit(EXIT_FAILURE);
-		}
-	}
-}
-*/
-
-void	get_cmd_path(t_pipex *pipex)
-{
-	int	i;
-	int	j;
-	int	flag;
-
-	pipex->cmd_path = ft_calloc(pipex->cmd_count + 1, sizeof(char *));
-	if (!pipex->cmd_path)
-		return ;
-	i = 0;
-	while (pipex->cmd_args[i])
-	{
-		path_check(i, &j, pipex, &flag);
-		if (flag && !access(pipex->cmd_args[i][0], X_OK))
-			pipex->cmd_path[i] = ft_strdup(pipex->cmd_args[i][0]);
-		if (flag)
-		{
-			free_all(pipex);
-			write(2, "ft command not found\n", 18);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 		i++;
 	}

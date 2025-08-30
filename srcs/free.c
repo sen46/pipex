@@ -16,6 +16,8 @@
 
 void	free_str(char *str)
 {
+	if (!str)
+		return ;
 	free(str);
 	str = NULL;
 }
@@ -24,9 +26,9 @@ void	free_char_deg2(char **str)
 {
 	int	i;
 
-	i = 0;
 	if (!str)
 		return ;
+	i = 0;
 	while (str[i])
 	{
 		free(str[i]);
@@ -40,6 +42,8 @@ void	free_char_deg3(char ***str)
 {
 	int	i;
 
+	if (!str)
+		return ;
 	i = 0;
 	while (str[i])
 	{
