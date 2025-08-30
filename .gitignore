@@ -6,3 +6,5 @@ run.sh
 here.sh
 .gitignore
 memo
+ls
+*.a
