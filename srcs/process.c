@@ -53,6 +53,9 @@ static void	execute_command_step(t_pipex *pipex, char **envp, t_fd *fd, int i)
 	}
 	if (pid == 0)
 		run_child_process(pipex, i, envp, fd);
+	if (i == pipex->cmd_count - 1)
+		fd->last_pid = pid;
+
 	close(fd->prev);
 	if (i < pipex->cmd_count - 1)
 	{
@@ -65,6 +68,8 @@ void	execute_commands(t_pipex *pipex, char **envp)
 {
 	t_fd	fd;
 	int		i;
+	int		status;
+	pid_t	terminated_pid;
 
 	i = 0;
 	fd.prev = pipex->infile_fd;
@@ -73,6 +78,17 @@ void	execute_commands(t_pipex *pipex, char **envp)
 		execute_command_step(pipex, envp, &fd, i);
 		i++;
 	}
-	while (wait(NULL) > 0)
-		;
+	i = 0;
+	while (i < pipex->cmd_count)
+	{
+		terminated_pid = wait(&status);
+		if (terminated_pid == fd.last_pid)
+		{
+			if (pipex->status == 1)
+				continue ;
+			if (WIFEXITED(status))
+				pipex->status = WEXITSTATUS(status);
+		}
+		i++;
+	}
 }

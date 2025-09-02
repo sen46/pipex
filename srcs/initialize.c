@@ -16,20 +16,27 @@
 #include "struct.h"
 #include <stdlib.h>
 
-static char	***command_alloc(int argc, char **argv, int type);
-static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp);
-static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp);
-
-int	initialize(int argc, char **argv, char **envp, t_pipex *pipex)
+static char	***command_alloc(int cmd_count, char **argv, int type)
 {
-	pipex->paths = NULL;
-	pipex->cmd_args = NULL;
-	pipex->cmd_path = NULL;
-	if (pipex->type == PIPES)
-		type_pipes(argc, argv, pipex, envp);
-	else if (pipex->type == HERE_DOC)
-		type_heredoc(argc, argv, pipex, envp);
-	return (0);
+	char	***res;
+	int		i;
+
+	res = (char ***)ft_calloc(cmd_count + 1, sizeof(char **));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < cmd_count)
+	{
+		res[i] = ft_split(argv[i + type + 1], ' ');
+		if (!res[i])
+		{
+			free_char_deg3(res);
+			ft_putstr_fd("ft memory alloacated Error\n", 2);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	return (res);
 }
 
 static void	type_pipes(int argc, char **argv, t_pipex *pipex, char **envp)
@@ -65,35 +72,24 @@ static void	type_heredoc(int argc, char **argv, t_pipex *pipex, char **envp)
 			break ;
 		else
 			ft_putstr_fd(str, pipex->infile_fd);
-		free_str(str);
+		free_deg1(str);
 	}
 	get_next_line(-1);
-	free_str(str);
-	free_str(eof);
+	free_deg1(str);
+	free_deg1(eof);
 	close(pipex->infile_fd);
 	pipex->infile_fd = open("ft_tmp", O_RDONLY);
 	type_pipes(argc, argv, pipex, envp);
 }
 
-static char	***command_alloc(int cmd_count, char **argv, int type)
+int	initialize(int argc, char **argv, char **envp, t_pipex *pipex)
 {
-	char	***res;
-	int		i;
-
-	res = (char ***)ft_calloc(cmd_count + 1, sizeof(char **));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < cmd_count)
-	{
-		res[i] = ft_split(argv[i + type + 1], ' ');
-		if (!res[i])
-		{
-			free_char_deg3(res);
-			ft_putstr_fd("ft memory alloacated Error\n", 2);
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (res);
+	pipex->paths = NULL;
+	pipex->cmd_args = NULL;
+	pipex->cmd_path = NULL;
+	if (pipex->type == PIPES)
+		type_pipes(argc, argv, pipex, envp);
+	else if (pipex->type == HERE_DOC)
+		type_heredoc(argc, argv, pipex, envp);
+	return (0);
 }

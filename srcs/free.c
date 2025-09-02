@@ -14,7 +14,7 @@
 #include "struct.h"
 #include "pipex.h"
 
-void	free_str(char *str)
+void	free_deg1(char *str)
 {
 	if (!str)
 		return ;
@@ -61,7 +61,5 @@ void	free_all(t_pipex *pipex)
 	close(pipex->infile_fd);
 	close(pipex->outfile_fd);
 	if (!access("ft_tmp", F_OK))
-	{
 		unlink("ft_tmp");
-	}
 }

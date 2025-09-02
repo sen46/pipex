@@ -12,6 +12,7 @@
 
 #include "libft/libft.h"
 #include "pipex.h"
+#include "struct.h"
 #include <stdlib.h>
 
 static void	path_check(const int i, int *j, t_pipex *pipex, int *flag)
@@ -38,17 +39,37 @@ static void	path_check(const int i, int *j, t_pipex *pipex, int *flag)
 	}
 }
 
+static void	print_cmd_not_found(t_pipex *pipex, int i, int *is_err)
+{
+	if (i == pipex->cmd_count - 1)
+		*is_err = 127;
+	else
+		*is_err = 0;
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd(pipex->cmd_args[i][0], 2);
+	ft_putstr_fd("\n", 2);
+	pipex->cmd_path[i] = (char *)malloc(1);
+}
+
+static void	exit_get_cmd_path(t_pipex *pipex, int status_code)
+{
+	free_all(pipex);
+	exit(status_code);
+}
+
 void	get_cmd_path(t_pipex *pipex)
 {
 	int	i;
 	int	j;
 	int	flag;
+	int	is_err;
 
 	pipex->cmd_path = ft_calloc(pipex->cmd_count + 1, sizeof(char *));
 	if (!pipex->cmd_path)
 		return ;
-	i = 0;
-	while (pipex->cmd_args[i])
+	i = -1;
+	is_err = -1;
+	while (pipex->cmd_args[++i])
 	{
 		flag = 1;
 		if (pipex->paths)
@@ -59,13 +80,8 @@ void	get_cmd_path(t_pipex *pipex)
 			flag = 0;
 		}
 		if (flag == 1)
-		{
-			ft_putstr_fd("pipex: command not found: ", 2);
-			ft_putstr_fd(pipex->cmd_args[i][0], 2);
-			ft_putstr_fd("\n", 2);
-			free_all(pipex);
-			exit(127);
-		}
-		i++;
+			print_cmd_not_found(pipex, i, &is_err);
 	}
+	if (is_err != -1)
+		exit_get_cmd_path(pipex, is_err);
 }

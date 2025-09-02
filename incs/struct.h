@@ -13,6 +13,7 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
+#include <sys/types.h>
 typedef struct s_pipex
 {
 	int		infile_fd;
@@ -22,12 +23,14 @@ typedef struct s_pipex
 	char	***cmd_args;
 	int		cmd_count;
 	char	**cmd_path;
+	int		status;
 }	t_pipex;
 
 typedef struct s_fd
 {
-	int	pipe[2];
-	int	prev;
+	int		pipe[2];
+	int		prev;
+	pid_t	last_pid;
 }	t_fd;
 
 #endif

@@ -24,7 +24,7 @@ LIBFT_DIR   = ./incs/libft
 ########################################
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -g
 INCLUDES    = -I./incs -I$(LIBFT_DIR)
 
 RM          = rm -f
@@ -61,8 +61,10 @@ $(NAME): $(LIBFT) $(OBJ)
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR) -s
 
-$(OBJDIR)/%.o: %.c
-	@mkdir -p $(dir $@)
+$(OBJDIR):
+	@mkdir -p $(OBJDIR) $(OBJDIR)/srcs
+
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 bonus: all
@@ -77,13 +79,5 @@ fclean:
 	$(RM) $(NAME)
 
 re: fclean all
-
-run:
-	@$(MAKE) re
-	./run.sh
-
-here:
-	@$(MAKE) re
-	./here.sh
 
 .PHONY: all bonus clean fclean re

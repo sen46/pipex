@@ -61,14 +61,15 @@ BOBJS = $(addprefix $(OBJDIR)/, $(BSRCS:.c=.o))
 
 all: $(NAME)
 
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
+
 $(NAME): $(OBJS) $(BOBJS)
 	@$(AR) $(NAME) $(OBJS) $(BOBJS)
 
-bonus: $(OBJS) $(BOBJS)
-	@$(AR) $(NAME) $(OBJS) $(BOBJS)
+bonus: $(NAME)
 
-$(OBJDIR)/%.o: %.c
-	@mkdir -p $(dir $@)
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
@@ -78,3 +79,5 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all bonus clean fclean re

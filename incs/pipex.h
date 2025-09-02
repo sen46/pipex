@@ -35,6 +35,6 @@ int		initialize(int argc, char **argv, char **envp, t_pipex *pipex);
 void	get_cmd_path(t_pipex *pipex);
 void	execute_commands(t_pipex *pipex, char **envp);
 char	*ft_strjoin3(char *str1, char *str2, char *str3);
-void	free_str(char *str);
+void	free_deg1(char *str);
 
 #endif

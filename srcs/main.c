@@ -17,10 +17,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
+	pipex.status = 0;
 	if (valid(argc, argv, &pipex))
 		return (1);
 	initialize(argc, argv, envp, &pipex);
 	execute_commands(&pipex, envp);
 	free_all(&pipex);
-	return (0);
+	return (pipex.status);
 }
