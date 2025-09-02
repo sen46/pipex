@@ -14,6 +14,13 @@
 #include "struct.h"
 #include <unistd.h>
 
+static void	free_for_child(t_pipex *pipex)
+{
+	free_char_deg3(pipex->cmd_args);
+	free_char_deg2(pipex->cmd_path);
+	free_char_deg2(pipex->paths);
+}
+
 static void	run_child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 {
 	dup2(fd->prev, STDIN_FILENO);
@@ -30,7 +37,7 @@ static void	run_child_process(t_pipex *pipex, int i, char **envp, t_fd *fd)
 	close(pipex->outfile_fd);
 	execve(pipex->cmd_path[i], pipex->cmd_args[i], envp);
 	perror("execve");
-	free_all(pipex);
+	free_for_child(pipex);
 	exit(127);
 }
 
@@ -64,6 +71,7 @@ static void	execute_command_step(t_pipex *pipex, char **envp, t_fd *fd, int i)
 	}
 }
 
+/*
 void	execute_commands(t_pipex *pipex, char **envp)
 {
 	t_fd	fd;
@@ -75,7 +83,8 @@ void	execute_commands(t_pipex *pipex, char **envp)
 	fd.prev = pipex->infile_fd;
 	while (i < pipex->cmd_count)
 	{
-		execute_command_step(pipex, envp, &fd, i);
+		if (pipex->cmd_path[0][0])
+			execute_command_step(pipex, envp, &fd, i);
 		i++;
 	}
 	i = 0;
@@ -85,6 +94,38 @@ void	execute_commands(t_pipex *pipex, char **envp)
 		if (terminated_pid == fd.last_pid)
 		{
 			// if (pipex->status == 1 || pipex->status == 127 || git.status == 0)
+			if (pipex->status == 1 || pipex->status == 127)
+			// if (pipex->status == 1)
+				continue ;
+			if (WIFEXITED(status))
+				pipex->status = WEXITSTATUS(status);
+		}
+		i++;
+	}
+}
+*/
+
+void	execute_commands(t_pipex *pipex, char **envp)
+{
+	t_fd	fd;
+	int		i;
+	int		status;
+	pid_t	terminated_pid;
+
+	i = 0;
+	fd.prev = pipex->infile_fd;
+	fd.last_pid = 0;
+	while (i < pipex->cmd_count)
+	{
+		execute_command_step(pipex, envp, &fd, i);
+		i++;
+	}
+	i = 0;
+	while (i < pipex->cmd_count)
+	{
+		terminated_pid = wait(&status);
+		if (terminated_pid == fd.last_pid)
+		{
 			if (pipex->status == 1 || pipex->status == 127)
 				continue ;
 			if (WIFEXITED(status))

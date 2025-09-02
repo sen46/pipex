@@ -48,13 +48,11 @@ static void	print_cmd_not_found(t_pipex *pipex, int i, int *is_err)
 	ft_putstr_fd("pipex: command not found: ", 2);
 	ft_putstr_fd(pipex->cmd_args[i][0], 2);
 	ft_putstr_fd("\n", 2);
-	pipex->cmd_path[i] = (char *)malloc(1);
+	pipex->cmd_path[i] = ft_calloc(1, sizeof(char));
 }
 
 static void	exit_get_cmd_path(t_pipex *pipex, int status_code)
 {
-// 	free_all(pipex);
-// 	exit(status_code);
 	pipex->status = status_code;
 }
 
@@ -63,14 +61,13 @@ void	get_cmd_path(t_pipex *pipex)
 	int	i;
 	int	j;
 	int	flag;
-	int	is_err;
+	int	status_code;
 
 	pipex->cmd_path = ft_calloc(pipex->cmd_count + 1, sizeof(char *));
 	if (!pipex->cmd_path)
 		return ;
 	i = -1;
-	// is_err = -1;
-	pipex->status = 0;
+	status_code = -1;
 	while (pipex->cmd_args[++i])
 	{
 		flag = 1;
@@ -82,8 +79,8 @@ void	get_cmd_path(t_pipex *pipex)
 			flag = 0;
 		}
 		if (flag == 1)
-			print_cmd_not_found(pipex, i, &is_err);
+			print_cmd_not_found(pipex, i, &status_code);
 	}
-	if (is_err != -1)
-		exit_get_cmd_path(pipex, is_err);
+	if (status_code != -1)
+		exit_get_cmd_path(pipex, status_code);
 }
