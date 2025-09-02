@@ -80,4 +80,6 @@ fclean:
 
 re: fclean all
 
+run:
+	./pipex-tester/run.sh
 .PHONY: all bonus clean fclean re

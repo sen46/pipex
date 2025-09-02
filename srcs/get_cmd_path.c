@@ -53,8 +53,9 @@ static void	print_cmd_not_found(t_pipex *pipex, int i, int *is_err)
 
 static void	exit_get_cmd_path(t_pipex *pipex, int status_code)
 {
-	free_all(pipex);
-	exit(status_code);
+// 	free_all(pipex);
+// 	exit(status_code);
+	pipex->status = status_code;
 }
 
 void	get_cmd_path(t_pipex *pipex)
@@ -68,7 +69,8 @@ void	get_cmd_path(t_pipex *pipex)
 	if (!pipex->cmd_path)
 		return ;
 	i = -1;
-	is_err = -1;
+	// is_err = -1;
+	pipex->status = 0;
 	while (pipex->cmd_args[++i])
 	{
 		flag = 1;

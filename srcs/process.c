@@ -84,7 +84,8 @@ void	execute_commands(t_pipex *pipex, char **envp)
 		terminated_pid = wait(&status);
 		if (terminated_pid == fd.last_pid)
 		{
-			if (pipex->status == 1)
+			// if (pipex->status == 1 || pipex->status == 127 || git.status == 0)
+			if (pipex->status == 1 || pipex->status == 127)
 				continue ;
 			if (WIFEXITED(status))
 				pipex->status = WEXITSTATUS(status);
