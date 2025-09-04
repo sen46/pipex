@@ -65,7 +65,6 @@ void	valid_pipes(int argc, char **argv, t_pipex *pipex)
 		pipex->status = 1;
 		pipex->outfile_fd = open("ft_tmp", \
 				O_RDWR | O_CREAT | O_TRUNC, 0644);
-		// exit(EXIT_FAILURE);
 	}
 }
 

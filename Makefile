@@ -24,7 +24,7 @@ LIBFT_DIR   = ./incs/libft
 ########################################
 
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror
 INCLUDES    = -I./incs -I$(LIBFT_DIR)
 
 RM          = rm -f
@@ -80,6 +80,4 @@ fclean:
 
 re: fclean all
 
-run:
-	./pipex-tester/run.sh
 .PHONY: all bonus clean fclean re

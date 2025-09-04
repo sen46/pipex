@@ -13,7 +13,8 @@
 #ifndef STRUCT_H
 # define STRUCT_H
 
-#include <sys/types.h>
+# include <sys/types.h>
+
 typedef struct s_pipex
 {
 	int		infile_fd;
